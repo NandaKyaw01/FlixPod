@@ -4,10 +4,15 @@ const Card = ({ imdb, movieImage, movieName, releaseDate, style }) => {
   return (
     <div className="item" style={style}>
       <div className="movie-img">
-        <img
-          className="image"
-          src={`https://image.tmdb.org/t/p/w300/${movieImage}`}
-        />
+        {movieImage !== null ? (
+          <img
+            className="image"
+            src={`https://image.tmdb.org/t/p/w300/${movieImage}`}
+          />
+        ) : (
+          <img className="image" src={require("../../assets/usericon.jpg")} />
+        )}
+
         <div className="cardinfo">
           <div className="cardtitle">{movieName}</div>
           <div className="cardyear">{releaseDate}</div>

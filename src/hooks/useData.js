@@ -14,7 +14,12 @@ const useData = (endpoint, requestConfig, deps) => {
       apiClient
         .get(endpoint, { signal: controller.signal, ...requestConfig })
         .then((res) => {
-          setData(res.data.results);
+          if (res.data.results) {
+            setData((pre) => [...pre, ...res.data.results]);
+          } else if (res.data.cast) {
+            setData([...res.data.cast, ...res.data.crew]);
+          } else setData(res.data);
+
           setLoading(false);
         })
         .catch((err) => {

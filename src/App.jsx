@@ -9,6 +9,7 @@ import PopularTVList from "./components/TVshowLists/PopularTVLIst";
 import TopRatedTVList from "./components/TVshowLists/TopRatedTVList";
 import TVDetail from "./components/basic/TVDetail";
 import AppLayout from "./Layouts/AppLayout";
+import RecommandMovieList from "./components/MovieLists/RecommandMovieList";
 
 const App = () => {
   return (
@@ -19,10 +20,16 @@ const App = () => {
         <Route path="/discovery" element={<Discovery state={"discovery"} />} />
         <Route path="/movie/popularmovies" element={<PopularMovieList />} />
         <Route path="/movie/topratedmovies" element={<TopRatedMovieList />} />
+        <Route
+          path="/movie/:id/recommandations"
+          element={<RecommandMovieList />}
+        />
+
         <Route path="/tv/populartv" element={<PopularTVList />} />
         <Route path="/tv/topratedtv" element={<TopRatedTVList />} />
 
         <Route path="/movie/popularmovies/:id" element={<MovieDetail />} />
+        <Route path="/movie/:id" element={<MovieDetail />} />
         <Route path="/movie/topratedmovies/:id" element={<MovieDetail />} />
 
         <Route path="/tv/populartv/:id" element={<TVDetail />} />

@@ -1,5 +1,5 @@
 import DragScrollList from "./basic/DragScrollList";
-import useMovie from "../hooks/useMovie";
+import { useMovie } from "../hooks/useMovie";
 import AppLayout from "../Layouts/AppLayout";
 
 const Home = ({ state }) => {

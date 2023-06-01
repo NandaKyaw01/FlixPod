@@ -2,7 +2,7 @@ import { CommunityIcon } from "../../icon";
 
 const DetailCard = ({ profile, name, character }) => {
   return (
-    <div style={{ marginRight: "20px" }}>
+    <div style={{ marginLeft: "16px", marginRight: "10px" }}>
       <div
         className="card"
         style={{

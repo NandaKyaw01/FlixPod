@@ -1,9 +1,9 @@
 import ScrollContainer from "react-indiana-drag-scroll";
-import { Link } from "react-router-dom";
+import { Link, redirect, useNavigate } from "react-router-dom";
 import Card from "./Card";
 import LoadMoreCard from "./LoadMoreCard";
 
-const DragScrollList = ({ movielist, title, link, error, loading }) => {
+const DragScrollList = ({ id, movielist, title, link, error, loading }) => {
   if (error) return <div>{error}</div>;
   return (
     <>
@@ -24,7 +24,7 @@ const DragScrollList = ({ movielist, title, link, error, loading }) => {
                 />
               </Link>
             ))}
-            <LoadMoreCard link={link} />
+            <LoadMoreCard id={id} link={link} />
           </ScrollContainer>
         </div>
       )}

@@ -1,21 +1,24 @@
-import { useEffect, useState } from "react";
-import { getMovieList } from "../../utils/api";
+import { useState } from "react";
 import Card from "../basic/Card";
 import PaginationLoadMore from "../basic/PaginationLoadMore";
-import { Link } from "react-router-dom";
-import { useMovie } from "../../hooks/useMovie";
+import { Link, useParams } from "react-router-dom";
+import { useMovieRecom } from "../../hooks/useMovie";
+import removeDuplicate from "../../utils/removeDuplicate";
 
-const PopularMovieList = () => {
+const RecommandMovieList = () => {
+  const { id } = useParams();
   const [pageNumber, setPageNumber] = useState(1);
   const {
     data: popularMovieList,
     error: popularMovieError,
     isLoading: popularMovieLoading,
-  } = useMovie("popular", pageNumber);
+  } = useMovieRecom(id, pageNumber);
 
   const loadMoreHandler = () => {
     setPageNumber((pre) => pre + 1);
   };
+
+  const filterList = removeDuplicate(popularMovieList);
 
   return (
     <>
@@ -25,14 +28,14 @@ const PopularMovieList = () => {
         <> */}
       {/* Movie Main Page  */}
       <div className="custom-container">
-        <div className="title ">Trending Movies</div>
+        <div className="title ">Related Movies</div>
         <div className="row">
-          {popularMovieList.map((item) => (
+          {filterList.map((item) => (
             <div
               key={item.id}
               className="col-6 col-md-4 col-lg-3 pe-4 pb-4 grid-card"
             >
-              <Link to={`/movie/popularmovies/${item.id}`}>
+              <Link to={`/movie/${item.id}`}>
                 <Card
                   movieName={item.title}
                   movieImage={item.poster_path}
@@ -51,4 +54,4 @@ const PopularMovieList = () => {
   );
 };
 
-export default PopularMovieList;
+export default RecommandMovieList;
