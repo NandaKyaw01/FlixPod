@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { CommingSoonIcon, LogoIcon, NotiIcon, ProfileIcon } from "../icon";
-import { Link, NavLink, Outlet } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import {
   BookmarkedIcon,
   CommunityIcon,
@@ -13,15 +13,25 @@ import {
 } from "../icon";
 
 const HomeNav = () => {
+  const param = useLocation().pathname;
+
   return (
     <>
       <li className="nav-item">
-        <NavLink to="/" className="nav-link" type="button">
+        <NavLink
+          to={"/"}
+          className={param.includes("/movie") ? "nav-link active" : "nav-link"}
+          type="button"
+        >
           Movies
         </NavLink>
       </li>
       <li className="nav-item">
-        <NavLink to="/tv" className="nav-link" type="button">
+        <NavLink
+          to="/tv"
+          className={param.includes("/tv") ? "nav-link active" : "nav-link"}
+          type="button"
+        >
           TV Shows
         </NavLink>
       </li>
@@ -31,17 +41,15 @@ const HomeNav = () => {
 
 const ENUM_STATES = {
   home: <HomeNav />,
-  tv: <HomeNav />,
   discovery: <div>Discovery</div>,
   default: <HomeNav />,
 };
 
 const AppLayout = ({ children, state }) => {
+  const param = useLocation().pathname;
   const [show, setShow] = useState(false);
   const controlNavbar = () => {
-    if (window.innerWidth < 768 && window.scrollY > 100) {
-      setShow(true);
-    } else setShow(false);
+    setShow(window.innerWidth < 768 && window.scrollY > 100);
   };
 
   useEffect(() => {
@@ -50,7 +58,7 @@ const AppLayout = ({ children, state }) => {
     return () => {
       window.removeEventListener("scroll", controlNavbar);
     };
-  }, []);
+  }, [show]);
 
   return (
     <>
@@ -120,10 +128,10 @@ const AppLayout = ({ children, state }) => {
               <ul className="nav flex-column">
                 <li className="nav-item">
                   <NavLink
-                    className={({ isActive, isPending }) =>
-                      isPending
-                        ? "pending"
-                        : isActive
+                    className={({ isActive }) =>
+                      param.includes("/tv") |
+                      param.includes("/movie") |
+                      isActive
                         ? "nav-link active"
                         : "nav-link"
                     }
@@ -208,7 +216,12 @@ const AppLayout = ({ children, state }) => {
             </div>
           </div>
         </nav>
-        <div className="col-md-9 ms-sm-auto col-lg-10 p-0 main">{children}</div>
+        <div
+          className="col-md-9 ms-sm-auto col-lg-10 p-0 main"
+          style={{ position: "relative" }}
+        >
+          {children}
+        </div>
       </div>
     </>
   );

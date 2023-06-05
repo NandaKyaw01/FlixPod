@@ -12,10 +12,17 @@ import PhotoGallery from "./PhotoGallery";
 import DirectorList from "./DirectorList";
 import { useEffect, useState } from "react";
 import Loading from "./Loading";
+import ImageCarousel from "./ImageCarousel";
+import AppLayout from "../../Layouts/AppLayout";
 
-const MovieDetail = () => {
+const MovieDetail = ({ state }) => {
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
+  const [isMediumScreen, setIsMediumScreen] = useState(false);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [id]);
 
   const {
     data: movie,
@@ -52,6 +59,17 @@ const MovieDetail = () => {
     }
   }, [movieLoading, castLoading, photoLoading, recommendationsLoading]);
 
+  useEffect(() => {
+    window.addEventListener("resize", updatePredicate);
+    return () => {
+      window.removeEventListener("resize", updatePredicate);
+    };
+  }, [isMediumScreen]);
+
+  const updatePredicate = () => {
+    setIsMediumScreen(window.innerWidth < 1080);
+  };
+
   const filterJob = (arr) => {
     const job = arr.filter(
       (item) => item.job === "Director" || item.job === "Producer"
@@ -82,7 +100,7 @@ const MovieDetail = () => {
   if (movieError) return <div>{movieError}</div>;
 
   return (
-    <>
+    <AppLayout state={state}>
       {loading ? (
         <Loading />
       ) : (
@@ -133,22 +151,28 @@ const MovieDetail = () => {
             </div>
           </div>
           <div className="row px-4 py-5">
-            <div className="col-md-3 col-lg-3 p-0">
+            <div className="col-12 col-md-5 col-lg-3 p-0">
               <CastList
                 cast={removeDuplicate(cast.cast)}
                 title="Top Billed Cast"
               />
             </div>
 
-            <div className="col-md-9 col-lg-9 p-0">
-              <PhotoGallery
-                photos={photos}
-                error={photosError}
-                loading={photoLoading}
-              />
+            <div className="col-12 col-md-7 col-lg-9 p-0">
+              {isMediumScreen === true ? (
+                <div className="mt-4">
+                  <ImageCarousel photos={photos} />
+                </div>
+              ) : (
+                <PhotoGallery
+                  photos={photos}
+                  error={photosError}
+                  loading={photoLoading}
+                />
+              )}
             </div>
           </div>
-          <div className="mt-5">
+          <div className="mb-3">
             <DragScrollList
               id={id}
               movielist={removeDuplicate(recommendations.results)}
@@ -160,7 +184,7 @@ const MovieDetail = () => {
           </div>
         </>
       )}
-    </>
+    </AppLayout>
   );
 };
 

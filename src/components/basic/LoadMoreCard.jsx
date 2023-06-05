@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const LoadMoreCard = ({ id, link }) => {
   return (
-    <div className="item">
+    <div className="item" style={{ marginRight: "24px" }}>
       <Link to={id === undefined ? `${link}` : `${link}/${id}/recommandations`}>
         <div
           className=" movie-img "

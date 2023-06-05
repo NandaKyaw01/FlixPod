@@ -3,8 +3,9 @@ import Card from "../basic/Card";
 import { Link } from "react-router-dom";
 import { useMovieList } from "../../hooks/useMovie";
 import { throttle } from "../../utils/throttle";
+import AppLayout from "../../Layouts/AppLayout";
 
-const PopularMovieList = () => {
+const PopularMovieList = ({ state }) => {
   const [pageNumber, setPageNumber] = useState(1);
 
   const {
@@ -15,7 +16,7 @@ const PopularMovieList = () => {
 
   const expensiveCalculation = throttle(() => {
     handleScroll();
-  }, 500);
+  }, 2000);
 
   const handleScroll = () => {
     if (
@@ -36,7 +37,7 @@ const PopularMovieList = () => {
   if (popularMovieError) return <div>{popularMovieError}</div>;
 
   return (
-    <>
+    <AppLayout state={state}>
       {/* Movie Main Page  */}
       <div className="custom-container">
         <div className="title ">Trending Movies</div>
@@ -58,12 +59,11 @@ const PopularMovieList = () => {
           ))}
         </div>
 
-        {popularMovieLoading && (
+        {!popularMovieLoading && (
           <div style={{ fontSize: "60px", color: "white" }}>Loading...</div>
         )}
-        {/* <PaginationLoadMore clickEvent={loadMoreHandler} /> */}
       </div>
-    </>
+    </AppLayout>
   );
 };
 

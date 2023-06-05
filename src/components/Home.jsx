@@ -25,27 +25,28 @@ const Home = ({ state }) => {
 
   return (
     <>
-      {loading ? (
-        <Loading />
-      ) : (
-        <AppLayout state={state}>
-          {/* Movie Home Page  */}
+      <AppLayout state={state}>
+        {/* Movie Home Page  */}
+        {loading ? (
+          <Loading />
+        ) : (
+          <>
+            <DragScrollList
+              movielist={popularMovieList.results}
+              title="Trending Movies"
+              link="/movie/popularmovies"
+              error={popularMovieError}
+            />
 
-          <DragScrollList
-            movielist={popularMovieList.results}
-            title="Trending Movies"
-            link="/movie/popularmovies"
-            error={popularMovieError}
-          />
-
-          <DragScrollList
-            movielist={topRatedMovieList.results}
-            title="Top Rated Movies"
-            link="/movie/topratedmovies"
-            error={topRatedMovieError}
-          />
-        </AppLayout>
-      )}
+            <DragScrollList
+              movielist={topRatedMovieList.results}
+              title="Top Rated Movies"
+              link="/movie/topratedmovies"
+              error={topRatedMovieError}
+            />
+          </>
+        )}
+      </AppLayout>
     </>
   );
 };

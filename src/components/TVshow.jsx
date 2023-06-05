@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getMovieList } from "../utils/api";
 import DragScrollList from "./basic/DragScrollList";
 import AppLayout from "../Layouts/AppLayout";
+import Loading from "./basic/Loading";
 
 const Home = ({ state }) => {
   const [popularTVList, setPopularTVList] = useState([]);
@@ -26,23 +27,25 @@ const Home = ({ state }) => {
 
   return (
     <>
-      {loading ? (
-        <div>Loading...</div>
-      ) : (
-        <AppLayout state={state}>
-          {/* Movie Home Page  */}
-          <DragScrollList
-            movielist={popularTVList}
-            title="Trending TV series"
-            link="/tv/populartv"
-          />
-          <DragScrollList
-            movielist={topratedTVList}
-            title="Top Rated series"
-            link="/tv/topratedtv"
-          />
-        </AppLayout>
-      )}
+      <AppLayout state={state}>
+        {loading ? (
+          <Loading />
+        ) : (
+          <>
+            {/* Movie Home Page  */}
+            <DragScrollList
+              movielist={popularTVList}
+              title="Trending TV series"
+              link="/tv/populartv"
+            />
+            <DragScrollList
+              movielist={topratedTVList}
+              title="Top Rated series"
+              link="/tv/topratedtv"
+            />
+          </>
+        )}
+      </AppLayout>
     </>
   );
 };

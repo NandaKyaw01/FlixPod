@@ -16,10 +16,16 @@ const App = () => {
     <>
       <Routes>
         <Route path="/" element={<Home state={"home"} />} />
-        <Route path="/tv" element={<TVshow state={"tv"} />} />
+        <Route path="/tv" element={<TVshow state={"home"} />} />
         <Route path="/discovery" element={<Discovery state={"discovery"} />} />
-        <Route path="/movie/popularmovies" element={<PopularMovieList />} />
-        <Route path="/movie/topratedmovies" element={<TopRatedMovieList />} />
+        <Route
+          path="/movie/popularmovies"
+          element={<PopularMovieList state={"home"} />}
+        />
+        <Route
+          path="/movie/topratedmovies"
+          element={<TopRatedMovieList state={"home"} />}
+        />
         <Route
           path="/movie/:id/recommandations"
           element={<RecommandMovieList />}
@@ -28,9 +34,15 @@ const App = () => {
         <Route path="/tv/populartv" element={<PopularTVList />} />
         <Route path="/tv/topratedtv" element={<TopRatedTVList />} />
 
-        <Route path="/movie/popularmovies/:id" element={<MovieDetail />} />
-        <Route path="/movie/:id" element={<MovieDetail />} />
-        <Route path="/movie/topratedmovies/:id" element={<MovieDetail />} />
+        <Route
+          path="/movie/popularmovies/:id"
+          element={<MovieDetail state={"home"} />}
+        />
+        <Route path="/movie/:id" element={<MovieDetail state={"home"} />} />
+        <Route
+          path="/movie/topratedmovies/:id"
+          element={<MovieDetail state={"home"} />}
+        />
 
         <Route path="/tv/populartv/:id" element={<TVDetail />} />
         <Route path="/tv/topratedtv/:id" element={<TVDetail />} />

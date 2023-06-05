@@ -3,8 +3,9 @@ import { getMovieList } from "../../utils/api";
 import Card from "../basic/Card";
 import PaginationLoadMore from "../basic/PaginationLoadMore";
 import { Link } from "react-router-dom";
+import AppLayout from "../../Layouts/AppLayout";
 
-const PopularMovieList = () => {
+const PopularMovieList = ({ state }) => {
   const [popularMovieList, setPopularMovieList] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
   // const [loading, setLoading] = useState(false);
@@ -26,7 +27,7 @@ const PopularMovieList = () => {
   };
 
   return (
-    <>
+    <AppLayout state={state}>
       {/* {loading ? (
         <div>Loading...</div>
       ) : (
@@ -55,7 +56,7 @@ const PopularMovieList = () => {
       </div>
       {/* </>
       )} */}
-    </>
+    </AppLayout>
   );
 };
 

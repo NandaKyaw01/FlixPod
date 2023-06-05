@@ -17,7 +17,7 @@
 }
 
 .scroll-container .item {
-  margin: 0 10px 0 20px;
+  margin-right: 15px;
 }
 
 /* Popular Movie List  */
@@ -93,7 +93,7 @@
 }
 
 .gallery-container {
-  height: 400px;
+  /* height: 400px; */
 }
 
 .gallery-container img {
@@ -249,14 +249,14 @@
 }
 
 .loading-wrapper {
-  position: fixed; /* Sit on top of the page content */
+  position: absolute; /* Sit on top of the page content */
   width: 100%; /* Full width (cover the whole page) */
   height: 100%; /* Full height (cover the whole page) */
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+  /* background-color: rgba(0, 0, 0, 0.5);  */
   z-index: 99999; /* Specify a stack order in case you're using a different order for other elements */
   cursor: pointer; /* Add a pointer on hover */
 }
@@ -287,4 +287,67 @@
 ::-webkit-scrollbar-thumb {
   background: wheat;
   border-radius: 10px;
+}
+
+/* Carousel  */
+.carousel-container {
+  height: 100%;
+}
+
+.selected-image {
+  width: 100%;
+  height: 300px;
+  margin-bottom: 8px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+@media screen and (max-width: 768px) {
+  .selected-image {
+    height: 600px;
+  }
+}
+
+.carousel {
+  position: relative;
+}
+
+.carousel__images {
+  display: flex;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+/* Scroll bar design  */
+/* width */
+.carousel__images::-webkit-scrollbar {
+  height: 0px;
+}
+
+.carousel__image-selected {
+  border: 3px solid #ffa700 !important;
+}
+
+.carousel__image {
+  margin-right: 10px;
+  height: 150px;
+  min-width: 150px;
+  border: 3px solid #ffa70000;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.carousel__button {
+  position: absolute;
+  top: 40%;
+}
+
+.carousel__button-left {
+  left: 10px;
+}
+
+.carousel__button-right {
+  right: 10px;
 }
