@@ -16,7 +16,7 @@ const App = () => {
     <>
       <Routes>
         <Route path="/" element={<Home state={"home"} />} />
-        <Route path="/tv" element={<TVshow />} />
+        <Route path="/tv" element={<TVshow state={"tv"} />} />
         <Route path="/discovery" element={<Discovery state={"discovery"} />} />
         <Route path="/movie/popularmovies" element={<PopularMovieList />} />
         <Route path="/movie/topratedmovies" element={<TopRatedMovieList />} />

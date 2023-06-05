@@ -1,28 +1,42 @@
 import { useEffect, useState } from "react";
-import { getMovieList } from "../../utils/api";
 import Card from "../basic/Card";
-import PaginationLoadMore from "../basic/PaginationLoadMore";
 import { Link } from "react-router-dom";
-import { useMovie } from "../../hooks/useMovie";
+import { useMovieList } from "../../hooks/useMovie";
+import { throttle } from "../../utils/throttle";
 
 const PopularMovieList = () => {
   const [pageNumber, setPageNumber] = useState(1);
+
   const {
     data: popularMovieList,
     error: popularMovieError,
     isLoading: popularMovieLoading,
-  } = useMovie("popular", pageNumber);
+  } = useMovieList("popular", pageNumber);
 
-  const loadMoreHandler = () => {
+  const expensiveCalculation = throttle(() => {
+    handleScroll();
+  }, 500);
+
+  const handleScroll = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop !==
+        document.documentElement.offsetHeight ||
+      popularMovieLoading
+    ) {
+      return;
+    }
     setPageNumber((pre) => pre + 1);
   };
 
+  useEffect(() => {
+    window.addEventListener("scroll", expensiveCalculation);
+    return () => window.removeEventListener("scroll", expensiveCalculation);
+  }, [popularMovieLoading]);
+
+  if (popularMovieError) return <div>{popularMovieError}</div>;
+
   return (
     <>
-      {/* {loading ? (
-        <div>Loading...</div>
-      ) : (
-        <> */}
       {/* Movie Main Page  */}
       <div className="custom-container">
         <div className="title ">Trending Movies</div>
@@ -43,10 +57,12 @@ const PopularMovieList = () => {
             </div>
           ))}
         </div>
-        <PaginationLoadMore clickEvent={loadMoreHandler} />
+
+        {popularMovieLoading && (
+          <div style={{ fontSize: "60px", color: "white" }}>Loading...</div>
+        )}
+        {/* <PaginationLoadMore clickEvent={loadMoreHandler} /> */}
       </div>
-      {/* </>
-      )} */}
     </>
   );
 };

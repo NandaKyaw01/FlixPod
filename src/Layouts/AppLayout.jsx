@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { LogoIcon, NotiIcon, ProfileIcon } from "../icon";
-import { Link, Outlet } from "react-router-dom";
+import { CommingSoonIcon, LogoIcon, NotiIcon, ProfileIcon } from "../icon";
+import { Link, NavLink, Outlet } from "react-router-dom";
 import {
   BookmarkedIcon,
   CommunityIcon,
@@ -16,14 +16,14 @@ const HomeNav = () => {
   return (
     <>
       <li className="nav-item">
-        <Link to="/" className="nav-link" type="button">
+        <NavLink to="/" className="nav-link" type="button">
           Movies
-        </Link>
+        </NavLink>
       </li>
       <li className="nav-item">
-        <Link to="tv" className="nav-link" type="button">
+        <NavLink to="/tv" className="nav-link" type="button">
           TV Shows
-        </Link>
+        </NavLink>
       </li>
     </>
   );
@@ -31,6 +31,7 @@ const HomeNav = () => {
 
 const ENUM_STATES = {
   home: <HomeNav />,
+  tv: <HomeNav />,
   discovery: <div>Discovery</div>,
   default: <HomeNav />,
 };
@@ -38,7 +39,7 @@ const ENUM_STATES = {
 const AppLayout = ({ children, state }) => {
   const [show, setShow] = useState(false);
   const controlNavbar = () => {
-    if (window.scrollY > 100 && window.innerWidth < 768) {
+    if (window.innerWidth < 768 && window.scrollY > 100) {
       setShow(true);
     } else setShow(false);
   };
@@ -118,26 +119,54 @@ const AppLayout = ({ children, state }) => {
             <div>
               <ul className="nav flex-column">
                 <li className="nav-item">
-                  <Link className="nav-link active" aria-current="page" to="/">
+                  <NavLink
+                    className={({ isActive, isPending }) =>
+                      isPending
+                        ? "pending"
+                        : isActive
+                        ? "nav-link active"
+                        : "nav-link"
+                    }
+                    aria-current="page"
+                    to="/"
+                  >
                     <HomeIcon />
                     Home
-                  </Link>
+                  </NavLink>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to="/discovery">
+                  <NavLink
+                    className={({ isActive, isPending }) =>
+                      isPending
+                        ? "pending"
+                        : isActive
+                        ? "nav-link active"
+                        : "nav-link noactive"
+                    }
+                    to="/discovery"
+                  >
                     <DiscoveryIcon />
                     Discovery
-                  </Link>
+                  </NavLink>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to="#">
+                  <NavLink
+                    className={({ isActive, isPending }) =>
+                      isPending
+                        ? "pending"
+                        : isActive
+                        ? "nav-link active"
+                        : "nav-link"
+                    }
+                    to="/community"
+                  >
                     <CommunityIcon />
                     Community
-                  </Link>
+                  </NavLink>
                 </li>
                 <li className="nav-item">
                   <Link className="nav-link" to="#">
-                    <CommunityIcon />
+                    <CommingSoonIcon />
                     Comming Soon
                   </Link>
                 </li>

@@ -1,7 +1,20 @@
-import useData from "./useData";
+import { useEffect } from "react";
+import useFetch from "./useFetch";
+import useFetchPagination from "./useFetchPagination";
 
-export const useMovie = (param, pageNumber) =>
-  useData(
+export const useMovie = (param) =>
+  useFetch(
+    `/movie/${param}`,
+    {
+      params: {
+        language: "en-US",
+      },
+    },
+    []
+  );
+
+export const useMovieList = (param, pageNumber) =>
+  useFetchPagination(
     `/movie/${param}`,
     {
       params: {
@@ -12,29 +25,29 @@ export const useMovie = (param, pageNumber) =>
     [pageNumber]
   );
 
-export const useMovieDetail = (id) =>
-  useData(
+export const useMovieDetail = (id) => {
+  return useFetch(
     `/movie/${id}`,
     {
       params: {
         language: "en-US",
       },
     },
-    []
+    [id]
   );
-
+};
 export const useMovieCast = (id) =>
-  useData(
+  useFetch(
     `/movie/${id}/credits`,
     {
       params: {
         language: "en-US",
       },
     },
-    []
+    [id]
   );
 export const useMovieRecom = (id, pageNumber) =>
-  useData(
+  useFetch(
     `/movie/${id}/recommendations`,
     {
       params: {
@@ -42,14 +55,14 @@ export const useMovieRecom = (id, pageNumber) =>
         page: pageNumber,
       },
     },
-    [pageNumber]
+    [pageNumber, id]
   );
 
 export const useMoviePhotos = (id) =>
-  useData(
+  useFetch(
     `/movie/${id}/images`,
     {
       params: {},
     },
-    []
+    [id]
   );

@@ -86,13 +86,14 @@ body {
   color: rgba(255, 255, 255, 0.8);
 }
 
-.sidebar .nav-link.active {
+.sidebar .nav-link.active,
+.active * {
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
   line-height: 19px;
-
   color: rgba(225, 154, 154, 0.8);
+  fill: rgba(225, 154, 154, 0.8);
 }
 
 .sidebar .nav-link:hover .feather,

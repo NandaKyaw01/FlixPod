@@ -1,8 +1,11 @@
 import DragScrollList from "./basic/DragScrollList";
 import { useMovie } from "../hooks/useMovie";
 import AppLayout from "../Layouts/AppLayout";
+import { useEffect, useState } from "react";
+import Loading from "./basic/Loading";
 
 const Home = ({ state }) => {
+  const [loading, setLoading] = useState(true);
   const {
     data: popularMovieList,
     error: popularMovieError,
@@ -14,25 +17,36 @@ const Home = ({ state }) => {
     isLoading: topRatedMovieLoading,
   } = useMovie("top_rated");
 
-  return (
-    <AppLayout state={state}>
-      {/* Movie Home Page  */}
-      <DragScrollList
-        movielist={popularMovieList}
-        title="Trending Movies"
-        link="/movie/popularmovies"
-        error={popularMovieError}
-        loading={popularMovieLoading}
-      />
+  useEffect(() => {
+    if (popularMovieLoading === false && topRatedMovieLoading === false) {
+      setLoading(false);
+    }
+  }, [popularMovieLoading, topRatedMovieLoading]);
 
-      <DragScrollList
-        movielist={topRatedMovieList}
-        title="Top Rated Movies"
-        link="/movie/topratedmovies"
-        error={topRatedMovieError}
-        loading={topRatedMovieLoading}
-      />
-    </AppLayout>
+  return (
+    <>
+      {loading ? (
+        <Loading />
+      ) : (
+        <AppLayout state={state}>
+          {/* Movie Home Page  */}
+
+          <DragScrollList
+            movielist={popularMovieList.results}
+            title="Trending Movies"
+            link="/movie/popularmovies"
+            error={popularMovieError}
+          />
+
+          <DragScrollList
+            movielist={topRatedMovieList.results}
+            title="Top Rated Movies"
+            link="/movie/topratedmovies"
+            error={topRatedMovieError}
+          />
+        </AppLayout>
+      )}
+    </>
   );
 };
 
