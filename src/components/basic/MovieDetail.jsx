@@ -18,7 +18,7 @@ import AppLayout from "../../Layouts/AppLayout";
 const MovieDetail = ({ state }) => {
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
-  const [isMediumScreen, setIsMediumScreen] = useState(false);
+  const [isMediumScreen, setIsMediumScreen] = useState(true);
 
   useEffect(() => {
     window.scrollTo(0, 0);
