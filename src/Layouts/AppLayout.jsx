@@ -48,8 +48,11 @@ const ENUM_STATES = {
 const AppLayout = ({ children, state }) => {
   const param = useLocation().pathname;
   const [show, setShow] = useState(false);
+
   const controlNavbar = () => {
-    setShow(window.innerWidth < 768 && window.scrollY > 100);
+    if (window.innerWidth < 768) {
+      setShow(window.scrollY > 0);
+    } else setShow(false);
   };
 
   useEffect(() => {

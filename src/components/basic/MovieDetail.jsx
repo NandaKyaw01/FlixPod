@@ -159,7 +159,7 @@ const MovieDetail = ({ state }) => {
             </div>
 
             <div className="col-12 col-md-7 col-lg-9 p-0">
-              {isMediumScreen === true ? (
+              {isMediumScreen ? (
                 <div className="mt-4">
                   <ImageCarousel photos={photos} />
                 </div>
