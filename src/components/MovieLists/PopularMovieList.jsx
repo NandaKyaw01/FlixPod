@@ -61,7 +61,7 @@ const PopularMovieList = ({ state }) => {
         </div>
 
         {!popularMovieLoading && (
-          <div style={{ marginTop: "10px", textAlign: "center" }}>
+          <div style={{ textAlign: "center" }}>
             <Loadingv2 />
           </div>
         )}
