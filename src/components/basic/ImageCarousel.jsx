@@ -32,7 +32,7 @@ const ImageCarousel = ({ photos }) => {
   };
 
   return (
-    <div className="carousel-container">
+    <div className="carousel-container d-block d-sm-block d-md-block d-lg-none">
       <h2 className="gallery-title">Posters</h2>
       <div
         className="selected-image"

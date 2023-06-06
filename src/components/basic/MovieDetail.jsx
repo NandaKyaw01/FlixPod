@@ -18,7 +18,6 @@ import AppLayout from "../../Layouts/AppLayout";
 const MovieDetail = ({ state }) => {
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
-  const [isMediumScreen, setIsMediumScreen] = useState(true);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -58,17 +57,6 @@ const MovieDetail = ({ state }) => {
       setLoading(false);
     }
   }, [movieLoading, castLoading, photoLoading, recommendationsLoading]);
-
-  useEffect(() => {
-    window.addEventListener("resize", updatePredicate);
-    return () => {
-      window.removeEventListener("resize", updatePredicate);
-    };
-  }, [isMediumScreen]);
-
-  const updatePredicate = () => {
-    setIsMediumScreen(window.innerWidth < 1080);
-  };
 
   const filterJob = (arr) => {
     const job = arr.filter(
@@ -159,17 +147,12 @@ const MovieDetail = ({ state }) => {
             </div>
 
             <div className="col-12 col-md-7 col-lg-9 p-0">
-              {isMediumScreen ? (
-                <div className="mt-4">
-                  <ImageCarousel photos={photos} />
-                </div>
-              ) : (
-                <PhotoGallery
-                  photos={photos}
-                  error={photosError}
-                  loading={photoLoading}
-                />
-              )}
+              <ImageCarousel photos={photos} />
+              <PhotoGallery
+                photos={photos}
+                error={photosError}
+                loading={photoLoading}
+              />
             </div>
           </div>
           <div className="mb-3">
