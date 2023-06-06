@@ -1,16 +1,25 @@
+import { useState } from "react";
 import { ImdbIcon } from "../../icon";
 
 const Card = ({ imdb, movieImage, movieName, releaseDate, style }) => {
+  const [isPhotoLoading, setisPhotoLoading] = useState(false);
+
   return (
     <div className="item" style={style}>
       <div className="movie-img">
         {movieImage !== null ? (
           <img
             className="image"
-            src={`https://image.tmdb.org/t/p/w300/${movieImage}`}
+            loading="lazy"
+            src={
+              !isPhotoLoading
+                ? require("../../assets/movieImg.jpg")
+                : `https://image.tmdb.org/t/p/w300/${movieImage}`
+            }
+            onLoad={() => setisPhotoLoading(true)}
           />
         ) : (
-          <img className="image" src={require("../../assets/usericon.jpg")} />
+          <img className="image" src={require("../../assets/movieImg.jpg")} />
         )}
 
         <div className="cardinfo">

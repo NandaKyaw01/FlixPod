@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useMovieList } from "../../hooks/useMovie";
 import { throttle } from "../../utils/throttle";
 import AppLayout from "../../Layouts/AppLayout";
+import Loadingv2 from "../basic/Loadingv2";
 
 const PopularMovieList = ({ state }) => {
   const [pageNumber, setPageNumber] = useState(1);
@@ -16,7 +17,7 @@ const PopularMovieList = ({ state }) => {
 
   const expensiveCalculation = throttle(() => {
     handleScroll();
-  }, 2000);
+  }, 500);
 
   const handleScroll = () => {
     if (
@@ -60,7 +61,9 @@ const PopularMovieList = ({ state }) => {
         </div>
 
         {!popularMovieLoading && (
-          <div style={{ fontSize: "60px", color: "white" }}>Loading...</div>
+          <div style={{ marginTop: "10px", textAlign: "center" }}>
+            <Loadingv2 />
+          </div>
         )}
       </div>
     </AppLayout>
