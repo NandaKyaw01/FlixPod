@@ -225,12 +225,6 @@ body {
 
 /* Main Pages */
 
-.main .container {
-  margin: 30px;
-  padding: 0;
-  overflow: hidden;
-}
-
 .title {
   font-weight: 700;
   font-size: 20px;

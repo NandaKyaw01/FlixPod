@@ -65,8 +65,8 @@ const AppLayout = ({ children, state }) => {
 
   return (
     <>
-      <header className="navbar navbar-dark sticky-top flex-md-nowrap p-0 custom-nav">
-        <Link className="col-md-3 col-lg-2 me-0 px-3 logospace" to="/">
+      <header className="navbar navbar-dark fixed-top flex-md-nowrap p-0 custom-nav">
+        <Link className="col-md-3 col-lg-2 px-3 logospace" to="/">
           <LogoIcon />
         </Link>
         <button
@@ -86,19 +86,8 @@ const AppLayout = ({ children, state }) => {
           <div className="container-fluid">
             <div className="collapse navbar-collapse ">
               <ul className="navbar-nav me-auto mb-2 mb-lg-0 leftnav">
-                {/* <li className="nav-item">
-                  <Link to="/" className="nav-link" type="button">
-                    Movies
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link to="tv" className="nav-link" type="button">
-                    TV Shows
-                  </Link>
-                </li> */}
                 {ENUM_STATES[state]}
               </ul>
-
               <span className="navbar-text d-none d-lg-block">
                 <ul className="navbar-nav me-auto mb-2 mb-lg-0 profile">
                   <li className="nav-item noti">
@@ -220,8 +209,8 @@ const AppLayout = ({ children, state }) => {
           </div>
         </nav>
         <div
-          className="col-md-9 ms-sm-auto col-lg-10 p-0 main"
-          style={{ position: "relative" }}
+          className="col-md-9 col-lg-10 ms-sm-auto main"
+          style={{ position: "relative", padding: "90px 0 0 0" }}
         >
           {children}
         </div>
