@@ -208,12 +208,7 @@ const AppLayout = ({ children, state }) => {
             </div>
           </div>
         </nav>
-        <div
-          className="col-md-9 col-lg-10 ms-sm-auto main"
-          style={{ position: "relative", padding: "90px 0 0 0" }}
-        >
-          {children}
-        </div>
+        <div className="col-md-9 col-lg-10 ms-sm-auto main">{children}</div>
       </div>
     </>
   );
