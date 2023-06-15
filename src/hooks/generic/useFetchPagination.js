@@ -1,9 +1,9 @@
 import { CanceledError } from "axios";
 import { useEffect, useState } from "react";
-import apiClient from "../utils/api";
+import { movie } from "../../utils/api";
 
-const useFetch = (endpoint, requestConfig, deps) => {
-  const [data, setData] = useState(undefined);
+const useFetchPagination = (endpoint, requestConfig, deps) => {
+  const [data, setData] = useState([]);
   const [error, setError] = useState("");
   const [isLoading, setLoading] = useState(true);
 
@@ -11,10 +11,10 @@ const useFetch = (endpoint, requestConfig, deps) => {
     () => {
       setLoading(true);
       const controller = new AbortController();
-      apiClient
+      movie
         .get(endpoint, { signal: controller.signal, ...requestConfig })
         .then((res) => {
-          setData(res.data);
+          setData((pre) => [...pre, ...res.data.results]);
           setLoading(false);
         })
         .catch((err) => {
@@ -30,4 +30,4 @@ const useFetch = (endpoint, requestConfig, deps) => {
   return { data, error, isLoading };
 };
 
-export default useFetch;
+export default useFetchPagination;

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import useFetch from "./useFetch";
-import useFetchPagination from "./useFetchPagination";
+import useFetch from "./generic/useFetch";
+import useFetchPagination from "./generic/useFetchPagination";
 
 export const useMovie = (param) =>
   useFetch(

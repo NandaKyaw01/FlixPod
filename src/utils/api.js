@@ -40,9 +40,13 @@ export const getCast = async (id, param) => {
 //   return response.data;
 // };
 
-export default axios.create({
+export const movie = axios.create({
   baseURL: "https://api.themoviedb.org/3/",
   params: {
     api_key: "31370bdd8fc99a1a12ee8a8da8cae936",
   },
+});
+
+export const user = axios.create({
+  baseURL: "http://localhost:5000/",
 });

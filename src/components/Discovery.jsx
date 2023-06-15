@@ -1,4 +1,5 @@
 import AppLayout from "../Layouts/AppLayout";
+import withAuth from "../hoc/withAuth";
 
 const Discovery = ({ state }) => {
   return (
@@ -23,4 +24,4 @@ const Discovery = ({ state }) => {
   );
 };
 
-export default Discovery;
+export default withAuth(Discovery);

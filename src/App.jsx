@@ -10,6 +10,9 @@ import TopRatedTVList from "./components/TVshowLists/TopRatedTVList";
 import TVDetail from "./components/basic/TVDetail";
 import AppLayout from "./Layouts/AppLayout";
 import RecommandMovieList from "./components/MovieLists/RecommandMovieList";
+import LoginForm from "./components/basic/LoginForm";
+import SignUpForm from "./components/basic/SignUpForm";
+import BookMark from "./components/Bookmark";
 
 const App = () => {
   return (
@@ -46,6 +49,9 @@ const App = () => {
 
         <Route path="/tv/populartv/:id" element={<TVDetail />} />
         <Route path="/tv/topratedtv/:id" element={<TVDetail />} />
+        <Route path="/login" element={<LoginForm />} />
+        <Route path="/signup" element={<SignUpForm />} />
+        <Route path="/bookmarks" element={<BookMark />} />
       </Routes>
     </>
   );

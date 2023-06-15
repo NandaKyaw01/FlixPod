@@ -35,13 +35,6 @@ const PopularMovieList = ({ state }) => {
   }, 500);
 
   const handleScroll = () => {
-    // if (
-    //   window.innerHeight + document.documentElement.scrollTop !==
-    //     document.documentElement.offsetHeight ||
-    //   popularMovieLoading
-    // ) {
-    //   return;
-    // }
     setPageNumber((pre) => pre + 1);
   };
 
@@ -59,7 +52,7 @@ const PopularMovieList = ({ state }) => {
                 <div
                   ref={lastmovieRef}
                   key={item.id}
-                  className="col-6 col-md-4 col-lg-2 pe-4 pb-4 grid-card"
+                  className="col-6 col-md-4 col-lg-3 pe-4 pb-4 grid-card"
                 >
                   <Link to={`/movie/popularmovies/${item.id}`}>
                     <Card
@@ -75,7 +68,7 @@ const PopularMovieList = ({ state }) => {
               return (
                 <div
                   key={item.id}
-                  className="col-6 col-md-4 col-lg-2 pe-4 pb-4 grid-card"
+                  className="col-6 col-md-4 col-lg-3 pe-4 pb-4 grid-card"
                 >
                   <Link to={`/movie/popularmovies/${item.id}`}>
                     <Card

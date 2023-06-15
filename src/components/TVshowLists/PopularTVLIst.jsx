@@ -3,6 +3,7 @@ import { getMovieList } from "../../utils/api";
 import Card from "../basic/Card";
 import PaginationLoadMore from "../basic/PaginationLoadMore";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const PopularTVList = () => {
   const [popularTVList, setPopularTVList] = useState([]);

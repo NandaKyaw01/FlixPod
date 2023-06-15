@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   useMovieDetail,
   useMovieCast,
@@ -14,14 +14,17 @@ import { useEffect, useState } from "react";
 import Loading from "./Loading";
 import ImageCarousel from "./ImageCarousel";
 import AppLayout from "../../Layouts/AppLayout";
+import UserService from "../../services/userService";
+import AuthService from "../../services/authService";
+import Comments from "./CommentSection/Comments";
 
 const MovieDetail = ({ state }) => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [id]);
+  const [userReady, setUserReady] = useState(false);
+  const [bookmarked, setBookmarked] = useState(false);
+  const [currentUser, setCurrentUser] = useState("");
 
   const {
     data: movie,
@@ -48,6 +51,10 @@ const MovieDetail = ({ state }) => {
   } = useMovieRecom(id, 1);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [id]);
+
+  useEffect(() => {
     if (
       movieLoading === false &&
       castLoading === false &&
@@ -57,6 +64,38 @@ const MovieDetail = ({ state }) => {
       setLoading(false);
     }
   }, [movieLoading, castLoading, photoLoading, recommendationsLoading]);
+
+  useEffect(() => {
+    const current = AuthService.getCurrentUser();
+    // if (!current) setRedirect("/login");
+    if (current) {
+      setCurrentUser(current.id);
+      UserService.getBookmark(movie?.id).then(
+        ({ isBookmark }) => {
+          setBookmarked(isBookmark);
+        },
+        (error) => console.log(error)
+      );
+      setUserReady(true);
+    }
+  }, [movie]);
+
+  const makeBookmark = () => {
+    UserService.addBookmark({
+      movie_id: "" + movie.id,
+    });
+    setBookmarked(true);
+  };
+
+  const removeBookmark = () => {
+    UserService.removeBookmark(movie.id);
+    setBookmarked(false);
+  };
+
+  const handleBookmark = () => {
+    if (!userReady) return navigate("/login");
+    bookmarked ? removeBookmark() : makeBookmark();
+  };
 
   const filterJob = (arr) => {
     const job = arr.filter(
@@ -127,9 +166,23 @@ const MovieDetail = ({ state }) => {
                         ))}
                       -<span> {fulltime(movie.runtime)}</span>
                     </div>
-
                     <div className="detail-overview">Overview</div>
                     <div>{movie.overview}</div>
+                    {bookmarked ? (
+                      <button
+                        onClick={handleBookmark}
+                        className="btn btn-danger mt-3"
+                      >
+                        Remove from Bookmark
+                      </button>
+                    ) : (
+                      <button
+                        onClick={handleBookmark}
+                        className="btn btn-primary mt-3"
+                      >
+                        Add to Bookmark
+                      </button>
+                    )}
                     {!castLoading && (
                       <DirectorList cast={filterJob(cast.crew)} />
                     )}
@@ -155,6 +208,13 @@ const MovieDetail = ({ state }) => {
               />
             </div>
           </div>
+
+          {movie && (
+            <div className="container">
+              <Comments user_id={currentUser} movie_id={movie.id} />{" "}
+            </div>
+          )}
+
           <div className="mb-3">
             <DragScrollList
               id={id}

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { CommingSoonIcon, LogoIcon, NotiIcon, ProfileIcon } from "../icon";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink, Navigate, useLocation } from "react-router-dom";
 import {
   BookmarkedIcon,
   CommunityIcon,
@@ -11,10 +11,10 @@ import {
   RecentIcon,
   TopratedIcon,
 } from "../icon";
+import AuthService from "../services/authService";
 
 const HomeNav = () => {
   const param = useLocation().pathname;
-
   return (
     <>
       <li className="nav-item">
@@ -39,6 +39,45 @@ const HomeNav = () => {
   );
 };
 
+const NavLoginSignup = () => {
+  return (
+    <>
+      <Link to="/login">
+        <button type="button" className="btn btn-secondary">
+          Login
+        </button>
+      </Link>
+      <Link to="/signup">
+        <button type="button" className="btn btn-link">
+          Signup
+        </button>
+      </Link>
+    </>
+  );
+};
+
+const NavUsernameEmail = ({ data }) => {
+  const { username, email } = data;
+  return (
+    <ul className="navbar-nav me-auto mb-2 mb-lg-0 profile">
+      <li className="nav-item noti">
+        <NotiIcon />
+      </li>
+      <li className="nav-item">
+        <ProfileIcon />
+      </li>
+      <li className="nav-item name">
+        <a className="nav-link name" href="#">
+          {username}
+        </a>
+        <a className="nav-link email" href="#">
+          {email}
+        </a>
+      </li>
+    </ul>
+  );
+};
+
 const ENUM_STATES = {
   home: <HomeNav />,
   discovery: <div>Discovery</div>,
@@ -49,10 +88,28 @@ const AppLayout = ({ children, state }) => {
   const param = useLocation().pathname;
   const [show, setShow] = useState(false);
 
+  // const [redirect, setRedirect] = useState(null);
+  const [currentUser, setCurrentUser] = useState({ username: "", email: "" });
+  const [userReady, setUserReady] = useState(false);
+
+  useEffect(() => {
+    const current = AuthService.getCurrentUser();
+    if (current) {
+      setCurrentUser({ username: current.username, email: current.email });
+      setUserReady(true);
+    }
+  }, []);
+
   const controlNavbar = () => {
     if (window.innerWidth < 768) {
       setShow(window.scrollY > 0);
     } else setShow(false);
+  };
+
+  const handleLogout = () => {
+    AuthService.logout();
+    window.location.reload();
+    setUserReady(false);
   };
 
   useEffect(() => {
@@ -62,6 +119,10 @@ const AppLayout = ({ children, state }) => {
       window.removeEventListener("scroll", controlNavbar);
     };
   }, [show]);
+
+  // if (redirect) {
+  //   return <Navigate to={redirect} />;
+  // }
 
   return (
     <>
@@ -89,22 +150,11 @@ const AppLayout = ({ children, state }) => {
                 {ENUM_STATES[state]}
               </ul>
               <span className="navbar-text d-none d-lg-block">
-                <ul className="navbar-nav me-auto mb-2 mb-lg-0 profile">
-                  <li className="nav-item noti">
-                    <NotiIcon />
-                  </li>
-                  <li className="nav-item">
-                    <ProfileIcon />
-                  </li>
-                  <li className="nav-item name">
-                    <a className="nav-link name" href="#">
-                      Yasuo Itashi
-                    </a>
-                    <a className="nav-link email" href="#">
-                      yasuoitashi@jupitor.jp
-                    </a>
-                  </li>
-                </ul>
+                {userReady ? (
+                  <NavUsernameEmail data={currentUser} />
+                ) : (
+                  <NavLoginSignup />
+                )}
               </span>
             </div>
           </div>
@@ -180,10 +230,19 @@ const AppLayout = ({ children, state }) => {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to="#">
+                  <NavLink
+                    className={({ isActive, isPending }) =>
+                      isPending
+                        ? "pending"
+                        : isActive
+                        ? "nav-link active"
+                        : "nav-link noactive"
+                    }
+                    to="/bookmarks"
+                  >
                     <BookmarkedIcon />
-                    Bookmarked
-                  </Link>
+                    Bookmarks
+                  </NavLink>
                 </li>
                 <li className="nav-item">
                   <Link className="nav-link" to="#">
@@ -198,13 +257,17 @@ const AppLayout = ({ children, state }) => {
                   </Link>
                 </li>
               </ul>
-              <hr className="line" />
-              <div className="nav-item">
-                <Link className="nav-link" to="#">
-                  <LogoutIcon />
-                  Logout
-                </Link>
-              </div>
+              {userReady && (
+                <>
+                  <hr className="line" />
+                  <div className="nav-item">
+                    <Link className="nav-link" onClick={handleLogout}>
+                      <LogoutIcon />
+                      Logout
+                    </Link>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </nav>
