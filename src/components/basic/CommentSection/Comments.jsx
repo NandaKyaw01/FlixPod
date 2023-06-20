@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useComment } from "../../../hooks/useComment";
 import UserService from "../../../services/userService";
 import Comment from "./Comment";
@@ -53,6 +53,32 @@ const Comments = ({ user_id, movie_id }) => {
     });
   };
 
+  const updateComment = (text, commentId) => {
+    UserService.updateComment({ id: commentId, comment_text: text }).then(
+      () => {
+        const updatedComment = comments.map((c) => {
+          if (c.id === commentId) return { ...c, comment_text: text };
+          return c;
+        });
+        setComments(updatedComment);
+        setActiveComment(null);
+      },
+      (err) => console.log(err)
+    );
+  };
+
+  const deleteComment = (commentId) => {
+    if (window.confirm("Are you sure you want to remove comment?")) {
+      UserService.deleteComment(commentId).then(
+        (res) => {
+          const updatedArray = [...comments].filter((c) => c.id !== commentId);
+          setComments(updatedArray);
+        },
+        (err) => console.log(err)
+      );
+    }
+  };
+
   return (
     <>
       <div className="comments">
@@ -68,11 +94,14 @@ const Comments = ({ user_id, movie_id }) => {
             rootComments.map((comment) => (
               <Comment
                 key={comment.id}
+                user_id={user_id}
                 comment={comment}
                 replies={getReplies(comment.id)}
                 activeComment={activeComment}
                 setActiveComment={setActiveComment}
                 addComment={addComment}
+                deleteComment={deleteComment}
+                updateComment={updateComment}
                 currentUserId={user_id}
               />
             ))}

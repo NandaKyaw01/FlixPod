@@ -43,17 +43,22 @@ class UserService {
       })
       .catch((err) => console.log(err.response.data));
   }
-  //   getUserBoard() {
-  //     return axios.get(API_URL + "user", { headers: authHeader() });
-  //   }
 
-  //   getModeratorBoard() {
-  //     return axios.get(API_URL + "mod", { headers: authHeader() });
-  //   }
+  deleteComment(id) {
+    return user
+      .delete("/api/comments/" + id, { headers: authHeader() })
+      .then((res) => {
+        return res.data;
+      });
+  }
 
-  //   getAdminBoard() {
-  //     return axios.get(API_URL + "admin", { headers: authHeader() });
-  //   }
+  updateComment(data) {
+    return user
+      .put("/api/comments/", data, { headers: authHeader() })
+      .then((res) => {
+        return res.data;
+      });
+  }
 }
 
 export default new UserService();

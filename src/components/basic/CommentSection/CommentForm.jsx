@@ -16,7 +16,7 @@ const CommentForm = ({
   };
 
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={onSubmit} name="form">
       <textarea
         className="comment-form-textarea"
         value={text}

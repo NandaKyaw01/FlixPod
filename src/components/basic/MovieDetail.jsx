@@ -138,6 +138,7 @@ const MovieDetail = ({ state }) => {
               backgroundImage: `url(
             "https://image.tmdb.org/t/p/w1280/${movie.backdrop_path}"
           )`,
+              backgroundAttachment: "fixed",
             }}
           >
             <div className="detail-backdrop">

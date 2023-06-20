@@ -7,7 +7,6 @@ const BookmarkCard = ({ movie_id }) => {
     error: movieError,
     isLoading: movieLoading,
   } = useMovieDetail(movie_id);
-  console.log(movie);
 
   if (movieError) return <></>;
   return (
